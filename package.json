@@ -1,0 +1,9 @@
+{
+  "name": "synapse-root",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "cd synapse-client && npm install && npm run build && cd ../synapse-server && npm install",
+    "start": "cd synapse-server && node server.js"
+  }
+}
