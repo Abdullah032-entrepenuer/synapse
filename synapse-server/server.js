@@ -57,24 +57,35 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || "")
   .map((origin) => origin.trim())
   .filter(Boolean);
 
-const corsOptions = {
-  origin: (origin, callback) => {
-    // Allow requests with no 'origin' header (server-to-server, Postman, etc.)
-    // and requests from the whitelist.
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.warn(`🚫 CORS blocked request from origin: ${origin}`);
-      callback(new Error(`Origin '${origin}' is not allowed by CORS policy.`));
+const corsOptionsDelegate = (req, callback) => {
+  const origin = req.header("Origin");
+  const host = req.header("Host");
+
+  // Allow server-to-server or requests without an origin header
+  if (!origin) {
+    return callback(null, { origin: true });
+  }
+
+  try {
+    const originHost = new URL(origin).host;
+    // Allow same-origin requests (Origin host matches server Host) or explicit whitelist
+    if (originHost === host || allowedOrigins.includes(origin)) {
+      return callback(null, {
+        origin: true,
+        methods: ["GET", "POST"],
+        allowedHeaders: ["Content-Type", "Authorization"],
+        optionsSuccessStatus: 200,
+      });
     }
-  },
-  methods: ["GET", "POST"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  // Allow the browser to read response headers in pre-flight
-  optionsSuccessStatus: 200,
+  } catch (e) {
+    // Invalid URL parsing, fall through to denial
+  }
+
+  console.warn(`🚫 CORS blocked request from origin: ${origin} (Host: ${host})`);
+  callback(new Error(`Origin '${origin}' is not allowed by CORS policy.`));
 };
 
-app.use("/api", cors(corsOptions));
+app.use("/api", cors(corsOptionsDelegate));
 
 // ── 5. Body Parsing ─────────────────────────────────────────
 // Accept JSON bodies up to 10kb — more than enough for a query string
