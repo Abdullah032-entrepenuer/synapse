@@ -8,6 +8,8 @@ services:
     envVars:
       - key: NODE_VERSION
         value: "20"
+      - key: npm_config_build_from_source
+        value: "sqlite3"
       - key: NODE_ENV
         value: production
       - key: GROQ_API_KEY
