@@ -25,8 +25,9 @@ import { getSafePosition } from "../../utils/coordinateHelper";
 import { fetchSynapseExpansion } from "../../api/synapseApi";
 
 // ── API base URL (Vite env) ────────────────────────────────
-const API_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5001/api";
+const API_URL = import.meta.env.PROD
+  ? "/api"
+  : (import.meta.env.VITE_API_URL || "http://localhost:5001/api");
 
 // ── Spread radius for spawned fusion cluster ───────────────
 const FUSION_SPAWN_SPREAD = 0.45;
