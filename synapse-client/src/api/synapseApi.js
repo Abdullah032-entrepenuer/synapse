@@ -13,13 +13,10 @@ import axios from "axios";
 
 // ── Base URL ─────────────────────────────────────────────
 /**
- * Vite exposes env vars prefixed with VITE_ via import.meta.env.
- * In development: defaults to localhost:5001
- * In production:  set VITE_API_URL in your Vercel env settings
- *                 to your Render backend URL.
+ * In development: hits localhost:5001
+ * In production: hits the relative /api path (since they are served on the same domain)
  */
-const BASE_URL =
-  import.meta.env.VITE_API_URL || "http://localhost:5001/api";
+const BASE_URL = import.meta.env.PROD ? "/api" : "http://localhost:5001/api";
 
 // Create a pre-configured axios instance
 const apiClient = axios.create({
