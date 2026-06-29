@@ -33,9 +33,15 @@ const PORT = process.env.PORT || 5001;
 // ── 3. Security Middleware ──────────────────────────────────
 /**
  * Helmet sets a suite of security-focused HTTP response headers.
- * e.g. Content-Security-Policy, X-Frame-Options, HSTS, etc.
+ * The default CSP is too strict for a React + Three.js SPA,
+ * so we relax it to allow inline styles, Google Fonts, and blob: URLs.
  */
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: false,   // React injects inline styles; Three.js uses blob: and data: URIs
+    crossOriginEmbedderPolicy: false, // Required for cross-origin font/image loading
+  })
+);
 
 // ── 4. CORS Configuration ───────────────────────────────────
 /**
