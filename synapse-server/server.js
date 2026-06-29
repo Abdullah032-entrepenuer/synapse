@@ -74,7 +74,7 @@ const corsOptions = {
   optionsSuccessStatus: 200,
 };
 
-app.use(cors(corsOptions));
+app.use("/api", cors(corsOptions));
 
 // ── 5. Body Parsing ─────────────────────────────────────────
 // Accept JSON bodies up to 10kb — more than enough for a query string
