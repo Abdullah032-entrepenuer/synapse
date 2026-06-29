@@ -12,7 +12,7 @@
 
 import { useCallback, useEffect, useRef, useState, Suspense } from "react";
 import { Canvas }   from "@react-three/fiber";
-import { useParams, useNavigate } from "react-router-dom";
+
 import "./App.css";
 
 import Scene         from "./components/3d/Scene";
@@ -125,8 +125,27 @@ const ExpandBanner = () => (
 // ─────────────────────────────────────────────────────────────
 const App = () => {
   const inputRef = useRef(null);
-  const { id: urlId } = useParams();
-  const navigate = useNavigate();
+  const [urlId, setUrlId] = useState(() => {
+    const p = window.location.pathname;
+    return p.startsWith('/graph/') ? p.replace('/graph/', '') : null;
+  });
+  
+  const navigate = useCallback((path) => {
+    window.history.pushState({}, '', path);
+    const newId = path.startsWith('/graph/') ? path.replace('/graph/', '') : null;
+    setUrlId(newId);
+  }, []);
+  
+  // Listen for browser back/forward buttons
+  useEffect(() => {
+    const handlePopState = () => {
+      const p = window.location.pathname;
+      setUrlId(p.startsWith('/graph/') ? p.replace('/graph/', '') : null);
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
   // Triggers camera fly-in after each successful load
   const [didLoad, setDidLoad] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
