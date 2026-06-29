@@ -529,11 +529,27 @@
   
   .info-panel { 
     width: calc(100vw - var(--space-8)); 
+    max-height: 45vh;
+    overflow-y: auto;
     top: auto;
     bottom: 110px; 
     right: 50%;
     transform: translateX(50%);
     animation: fadeSlideUp 0.4s var(--ease-out) forwards;
+  }
+
+  .info-panel::-webkit-scrollbar {
+    width: 4px;
+  }
+  .info-panel::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .info-panel::-webkit-scrollbar-thumb {
+    background: rgba(139, 92, 246, 0.3);
+    border-radius: var(--radius-full);
+  }
+  .info-panel::-webkit-scrollbar-thumb:hover {
+    background: rgba(139, 92, 246, 0.5);
   }
   
   .idle-prompt-title { font-size: 1.75rem; }
