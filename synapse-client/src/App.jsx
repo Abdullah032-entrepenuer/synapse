@@ -173,6 +173,15 @@ const App = () => {
 
   const hasGraph = nodes.length > 0;
 
+  const [toast, setToast] = useState(null);
+
+  // Auto-dismiss toast
+  useEffect(() => {
+    if (!toast) return;
+    const t = setTimeout(() => setToast(null), 5000);
+    return () => clearTimeout(t);
+  }, [toast]);
+
   // Load graph if ID is in URL
   useEffect(() => {
     if (urlId) {
@@ -230,16 +239,30 @@ const App = () => {
 
   const handleShare = useCallback(async () => {
     if (!hasGraph || isSaving) return;
+
+    if (urlId) {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        setToast("Link copied to clipboard!");
+      } catch (err) {
+        setError("Failed to copy link.");
+      }
+      return;
+    }
+
     setIsSaving(true);
     try {
       const id = await fetchSynapseSave({ topic, nodes, edges });
+      const shareUrl = `${window.location.origin}/graph/${id}`;
+      await navigator.clipboard.writeText(shareUrl);
+      setToast("Graph saved! Link copied to clipboard.");
       navigate(`/graph/${id}`);
     } catch (err) {
       setError(err.message);
     } finally {
       setIsSaving(false);
     }
-  }, [hasGraph, isSaving, topic, nodes, edges, navigate, setError]);
+  }, [hasGraph, isSaving, topic, nodes, edges, navigate, setError, urlId]);
 
   return (
     <div className="app-container">
@@ -287,10 +310,10 @@ const App = () => {
                 className="glass-button" 
                 onClick={handleShare}
                 disabled={isSaving}
-                title={urlId ? "Link is generated" : "Save & Share Graph"}
+                title={urlId ? "Copy shareable link" : "Save & Share Graph"}
               >
                 {isSaving ? <LoaderIcon /> : <ShareIcon />}
-                <span>{urlId ? "Saved" : "Save Graph"}</span>
+                <span>{urlId ? "Copy Link" : "Save Graph"}</span>
               </button>
             )}
             <button 
@@ -377,6 +400,9 @@ const App = () => {
       {isExpanding && <ExpandBanner />}
       {error      && (
         <div className="error-toast" onClick={clearError} role="alert">⚠ {error}</div>
+      )}
+      {toast      && (
+        <div className="success-toast" onClick={() => setToast(null)} role="alert">✓ {toast}</div>
       )}
     </div>
   );

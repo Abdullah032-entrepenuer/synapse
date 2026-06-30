@@ -413,6 +413,28 @@
   z-index: 30;
 }
 
+/* ── Success Toast ───────────────────────────────────────── */
+.success-toast {
+  position: absolute;
+  top: var(--space-6);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-6);
+  font-size: 0.875rem;
+  color: #a7f3d0;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  animation: fadeSlideDown 0.4s var(--ease-out) forwards;
+  white-space: nowrap;
+  pointer-events: auto;
+  cursor: pointer;
+  z-index: 30;
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.2);
+}
+
 /* ── Idle Prompt ─────────────────────────────────────────── */
 .idle-prompt {
   position: absolute;
