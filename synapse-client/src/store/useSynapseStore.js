@@ -30,8 +30,11 @@ const useSynapseStore = create((set) => ({
   isDragging: false,
   isFusing: false,
   isExpanding: false,
+  zoomDirection: null, // "in", "out", or null
 
   // ── Actions ──────────────────────────────────────────────
+
+  setZoomDirection: (zoomDirection) => set({ zoomDirection }),
 
   setQuery: (query) => set({ query }),
 

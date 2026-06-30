@@ -103,6 +103,7 @@ const CameraAnimator = ({ shouldAnimate }) => {
 // ─────────────────────────────────────────────────────────────
 const Scene = ({ didLoad }) => {
   const orbitRef = useRef();
+  const { camera } = useThree();
 
   // ── Read graph from store (no props needed) ────────────
   const nodes        = useSynapseStore((s) => s.nodes);
@@ -111,6 +112,20 @@ const Scene = ({ didLoad }) => {
   const addMergedNodes = useSynapseStore((s) => s.addMergedNodes);
   const setIsFusing  = useSynapseStore((s) => s.setIsFusing);
   const setIsExpanding = useSynapseStore((s) => s.setIsExpanding);
+  const zoomDirection  = useSynapseStore((s) => s.zoomDirection);
+  const setZoomDirection = useSynapseStore((s) => s.setZoomDirection);
+
+  // Handle programmatic Zoom In / Zoom Out from UI controls
+  useFrame(() => {
+    if (zoomDirection) {
+      const factor = zoomDirection === "in" ? 0.82 : 1.22;
+      camera.position.multiplyScalar(factor);
+      setZoomDirection(null);
+      if (orbitRef.current) {
+        orbitRef.current.update();
+      }
+    }
+  });
 
   // ── Disable OrbitControls during drag ──────────────────
   // This is the KEY integration point: when a node is being

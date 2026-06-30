@@ -170,6 +170,7 @@ const App = () => {
   const clearError     = useSynapseStore((s) => s.clearError);
   const setSelectedNode= useSynapseStore((s) => s.setSelectedNode);
   const setViewMode    = useSynapseStore((s) => s.setViewMode);
+  const setZoomDirection = useSynapseStore((s) => s.setZoomDirection);
 
   const hasGraph = nodes.length > 0;
 
@@ -296,6 +297,14 @@ const App = () => {
 
       {/* ── UI Overlay ────────────────────────────────── */}
       <div className="ui-overlay">
+        {/* Floating Zoom Controls for 3D View */}
+        {viewMode === "3D" && (
+          <div className="zoom-controls">
+            <button onClick={() => setZoomDirection("in")} title="Zoom In" aria-label="Zoom In">+</button>
+            <button onClick={() => setZoomDirection("out")} title="Zoom Out" aria-label="Zoom Out">−</button>
+          </div>
+        )}
+
         {/* Header */}
         <header className="header" style={{ width: "100%", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>

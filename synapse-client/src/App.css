@@ -324,6 +324,48 @@
   text-decoration: underline;
 }
 
+/* ── Zoom Controls ───────────────────────────────────────── */
+.zoom-controls {
+  position: absolute;
+  bottom: 220px;
+  right: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  z-index: 15;
+  pointer-events: auto;
+}
+
+.zoom-controls button {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1px solid var(--glass-border);
+  color: var(--color-text-primary);
+  font-size: 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  box-shadow: var(--glass-shadow);
+  user-select: none;
+}
+
+.zoom-controls button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05);
+}
+
+.zoom-controls button:active {
+  transform: scale(0.95);
+}
+
 /* ── Glass Button ────────────────────────────────────────── */
 .glass-button {
   background: var(--glass-bg);
@@ -576,6 +618,13 @@
 @media (max-width: 640px) {
   .ui-overlay {
     padding: var(--space-4);
+    padding-bottom: 55px; /* Pull search bar and email credit up to avoid dynamic mobile toolbars */
+  }
+
+  .zoom-controls {
+    bottom: auto;
+    top: 140px; /* Position floating controls on the right side on mobile */
+    right: var(--space-4);
   }
 
   .search-container {
