@@ -391,6 +391,10 @@ const App = () => {
               {isLoading ? <LoaderIcon /> : <SendIcon />}
             </button>
           </form>
+          
+          <div className="dev-contact">
+            Developer: <a href="mailto:abdullahawais034@gmail.com">abdullahawais034@gmail.com</a>
+          </div>
         </div>
       </div>
 

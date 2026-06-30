@@ -298,6 +298,32 @@
   transition: transform 0.3s ease;
 }
 
+/* ── Developer Contact ───────────────────────────────────── */
+.dev-contact {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  opacity: 0.6;
+  margin-top: var(--space-1);
+  transition: opacity 0.2s ease;
+  pointer-events: auto;
+}
+
+.dev-contact:hover {
+  opacity: 0.95;
+}
+
+.dev-contact a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.dev-contact a:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
 /* ── Glass Button ────────────────────────────────────────── */
 .glass-button {
   background: var(--glass-bg);
