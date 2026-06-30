@@ -30,7 +30,7 @@ const FlowChartContent = () => {
   const initialNodes = useMemo(() => {
     return storeNodes.map((n) => ({
       id: n.id,
-      position: { x: n.position.x * 80, y: n.position.y * 80 },
+      position: { x: n.position.x * 160, y: n.position.y * 160 },
       data: { label: n.label, ...n },
       style: {
         background: 'rgba(5, 5, 5, 0.8)',
@@ -100,9 +100,9 @@ const FlowChartContent = () => {
           id: `${stamp}-${n.id}`,
           level: Math.min((n.level ?? 2), 2),
           position: {
-            x: safePos.x + pos.x * 0.5,
-            y: safePos.y + pos.y * 0.5,
-            z: safePos.z + pos.z * 0.5,
+            x: safePos.x + pos.x * 0.85,
+            y: safePos.y + pos.y * 0.85,
+            z: safePos.z + pos.z * 0.85,
           },
         };
       });

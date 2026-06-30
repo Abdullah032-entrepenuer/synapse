@@ -237,9 +237,9 @@ const Scene = ({ didLoad }) => {
             id: `${stamp}-${n.id}`,
             level: Math.min((n.level ?? 2), 2), // Sub-nodes
             position: {
-              x: safePos.x + pos.x * 0.5,
-              y: safePos.y + pos.y * 0.5,
-              z: safePos.z + pos.z * 0.5,
+              x: safePos.x + pos.x * 0.85,
+              y: safePos.y + pos.y * 0.85,
+              z: safePos.z + pos.z * 0.85,
             },
           };
         });
